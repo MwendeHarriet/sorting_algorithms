@@ -1,0 +1,3 @@
+O(n). This is the best case for time complexity.(Linear Time).
+O(n^2). This is average case time complexity.(Exponential Time).
+O(n^2). This is worst case time complexity.(Exponential Time).
