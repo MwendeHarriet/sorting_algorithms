@@ -6,33 +6,41 @@
 */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *curr, *prev, *next;
+	listint_t *node;
 
-	if (!list || *list == NULL || (*list)->next == NULL)
+	if (list == NULL || (*list)->next == NULL)
 		return;
-
-	curr = (*list)->next;
-	while (curr != NULL)
+	node = (*list)->next;
+	while (node)
 	{
-		next = curr->next;
-		prev = curr->prev;
-
-		while (prev != NULL && prev->n > curr->n)
+		while ((node->prev) && (node->prev->n > node->n))
 		{
-			next = curr->next;
-			if (curr->next != NULL)
-				curr->next->prev = prev;
-			curr->next = prev;
-			curr->prev = prev->prev;
-			prev->prev = curr;
-
-			if (curr->prev == NULL)
-				*list = curr;
-			else
-				curr->prev->next = curr;
+			node = swap_node(node, list);
 			print_list(*list);
-			prev = curr->prev;
 		}
-		curr = next;
+		node = node->next;
 	}
+}
+
+/**
+ *swap_node - Swaps two nodes in a doubly linked list.
+ *@node: the node
+ *@list:  list
+ *Return: return pointer of current node
+ */
+listint_t *swap_node(listint_t *node, listint_t **list)
+{
+	listint_t *back = node->prev, *current = node;
+
+	back->next = current->next;
+	if (current->next)
+		current->next->prev = back;
+	current->next = back;
+	current->prev = back->prev;
+	back->prev = current;
+	if (current->prev)
+		current->prev->next = current;
+	else
+		*list = current;
+	return (current);
 }
